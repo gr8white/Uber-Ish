@@ -11,7 +11,7 @@ import SwiftUI
 struct Uber_IshApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
     }
 }
