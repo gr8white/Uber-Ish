@@ -19,6 +19,7 @@ struct MapViewActionButton: View {
             Image(systemName: showLocationSearchView ? "arrow.left" : "line.3.horizontal")
                 .font(.title2)
                 .foregroundColor(.black)
+                .frame(width: 20, height: 20)
                 .padding()
                 .background(.white)
                 .clipShape(Circle())
