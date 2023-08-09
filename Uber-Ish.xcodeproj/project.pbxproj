@@ -21,6 +21,7 @@
 		1B0725BF2A817CBD007DB802 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725BE2A817CBD007DB802 /* LocationSearchView.swift */; };
 		1B0725C12A817F4C007DB802 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725C02A817F4C007DB802 /* LocationSearchResultCell.swift */; };
 		1B0725C32A818B4D007DB802 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725C22A818B4D007DB802 /* LocationSearchViewModel.swift */; };
+		1BD345312A83254C0039D47B /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD345302A83254C0039D47B /* MapViewState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		1B0725BE2A817CBD007DB802 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		1B0725C02A817F4C007DB802 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
 		1B0725C22A818B4D007DB802 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		1BD345302A83254C0039D47B /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 		1B0725AB2A7D8EDF007DB802 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1BD345302A83254C0039D47B /* MapViewState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				1B0725C32A818B4D007DB802 /* LocationSearchViewModel.swift in Sources */,
 				1B0725BF2A817CBD007DB802 /* LocationSearchView.swift in Sources */,
 				1B0725B32A7D90E5007DB802 /* LocationManager.swift in Sources */,
+				1BD345312A83254C0039D47B /* MapViewState.swift in Sources */,
 				1B0725BC2A817A06007DB802 /* MapViewActionButton.swift in Sources */,
 				1B07257E2A7D8DCC007DB802 /* Uber_IshApp.swift in Sources */,
 				1B0725B12A7D8F59007DB802 /* UberMapViewRepresentable.swift in Sources */,
