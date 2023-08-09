@@ -24,8 +24,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        if let selectedLocation = locationSearchViewModel.selectedLocation {
-            print("selected location in map view \(selectedLocation)")
+        if let coordinate = locationSearchViewModel.selectedLocationCoordinate {
+            print("selected location in map view \(coordinate)")
         }
     }
     
