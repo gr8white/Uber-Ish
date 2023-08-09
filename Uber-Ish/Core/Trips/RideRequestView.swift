@@ -13,6 +13,7 @@ struct RideRequestView: View {
             Capsule()
                 .foregroundColor(Color(.systemGray5))
                 .frame(width: 48, height: 6)
+                .padding(.top, 12)
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 12) {
@@ -126,9 +127,10 @@ struct RideRequestView: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }
-
         }
+        .padding(.bottom, 32)
         .background(.white)
+        .cornerRadius(32)
     }
 }
 
