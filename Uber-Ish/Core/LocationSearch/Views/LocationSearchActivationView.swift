@@ -16,6 +16,7 @@ struct LocationSearchActivationView: View {
                 .padding(.horizontal)
             
             Text("Where to?")
+                .foregroundColor(.black)
             
             Spacer()
         }
