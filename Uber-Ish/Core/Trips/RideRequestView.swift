@@ -30,7 +30,7 @@ struct RideRequestView: View {
                     
                     Spacer()
                     
-                    Text("1:30 PM")
+                    Text(viewModel.pickUpTime ?? "")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.gray)
                 }
@@ -45,14 +45,16 @@ struct RideRequestView: View {
                         .fill(.black)
                         .frame(width: 8, height: 8)
                     
-                    Text("Coffee Lovers")
-                        .font(.system(size: 16, weight: .semibold))
-                    
-                    Spacer()
-                    
-                    Text("1:37 PM")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.gray)
+                    if let selectedLocation = viewModel.selectedUberLocation {
+                        Text(selectedLocation.title)
+                            .font(.system(size: 16, weight: .semibold))
+                        
+                        Spacer()
+                        
+                        Text(viewModel.dropOffTime ?? "")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             .padding()
