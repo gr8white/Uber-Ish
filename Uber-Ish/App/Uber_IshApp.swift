@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct Uber_IshApp: App {
     @StateObject var locationSearchViewModel = LocationSearchViewModel()
+    
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
