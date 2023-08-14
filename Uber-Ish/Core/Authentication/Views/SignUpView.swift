@@ -8,13 +8,77 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @State var email: String = ""
+    @State var password: String = ""
+    @State var confirmPassword: String = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 40) {
+            Text("Create an account")
+                .font(.system(size: 40))
+                .fontWeight (.semibold)
+                .multilineTextAlignment(.leading)
+                .frame (width: 190)
+            
+            VStack(spacing: 32) {
+                CustomInputField(text: $email, title: "Email", placeholder: "name@example.com")
+                
+                CustomInputField(text: $password, title: "Password", placeholder: "Enter your password", isSecured: true)
+                
+                CustomInputField(text: $confirmPassword, title: "Password", placeholder: "Enter your password", isSecured: true)
+            }
+            
+            VStack {
+                HStack(spacing: 24) {
+                    Rectangle()
+                        .frame(width: 104, height: 1)
+                        .opacity(0.5)
+                    
+                    Text("Sign in with social")
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                    
+                    Rectangle()
+                        .frame(width: 104, height: 1)
+                        .opacity(0.5)
+                }
+                
+                HStack(spacing: 24) {
+                    Button {} label: {
+                        Image("facebook-sign-in-icon")
+                            .resizable()
+                            .frame(width: 44, height: 44)
+                    }
+                    
+                    Button {} label: {
+                        Image("google-sign-in-icon")
+                            .resizable()
+                            .frame(width: 44, height: 44)
+                    }
+                }
+            }
+            
+            Button {} label: {
+                HStack {
+                    Text("SIGN UP")
+                        .font(.system(size: 14))
+                    
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 14, weight: .semibold))
+                }
+                .foregroundColor(.black)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 50)
+            .background(Color.white)
+            .cornerRadius(10)
+        }
     }
 }
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }

@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct LandingView: View {
-    @State var showSignIn: Bool = true
+    @State var showSignIn: Bool = false
     
     var body: some View {
         ZStack {
             Color(.black)
                 .ignoresSafeArea()
             VStack(spacing: 40) {
-                VStack(spacing: -16) {
-                    Image("uber-app-icon")
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                    
-                    Text("UBER-ish")
-                        .font(.largeTitle)
-                }
-                
                 if showSignIn {
+                    VStack(spacing: -16) {
+                        Image("uber-app-icon")
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                        
+                        Text("UBER-ish")
+                            .font(.largeTitle)
+                    }
+                    
                     SignInView()
                 } else {
                     SignUpView()

@@ -14,34 +14,12 @@ struct SignInView: View {
     var body: some View {
         VStack(spacing: 40) {
             VStack(spacing: 32) {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Email Address")
-                        .fontWeight(.semibold)
-                        .font(.footnote)
-                    
-                    TextField("name@email.com", text: $email)
-                    
-                    Rectangle()
-                        .foregroundColor(Color(.init(white: 1.0, alpha: 0.3)))
-                        .frame(height: 0.7)
-                }
+                CustomInputField(text: $email, title: "Email", placeholder: "name@example.com")
                 
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Password")
-                        .fontWeight(.semibold)
-                        .font(.footnote)
-                    
-                    TextField("Enter your password", text: $password)
-                    
-                    Rectangle()
-                        .foregroundColor(Color(.init(white: 1.0, alpha: 0.3)))
-                        .frame(height: 0.7)
-                }
+                CustomInputField(text: $password, title: "Password", placeholder: "Enter your password", isSecured: true)
             }
             
-            Button {
-                
-            } label: {
+            Button {} label: {
                 Text("Forgot Password?")
                     .font(.system(size: 14, weight: .semibold))
             }
@@ -97,5 +75,7 @@ struct SignInView: View {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView()
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }
