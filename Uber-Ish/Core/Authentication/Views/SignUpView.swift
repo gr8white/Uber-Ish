@@ -8,24 +8,26 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @State var fullName: String = ""
     @State var email: String = ""
     @State var password: String = ""
-    @State var confirmPassword: String = ""
+    
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 40) {
             Text("Create an account")
                 .font(.system(size: 40))
-                .fontWeight (.semibold)
+                .fontWeight(.semibold)
                 .multilineTextAlignment(.leading)
-                .frame (width: 190)
+                .frame(width: 190)
             
             VStack(spacing: 32) {
-                CustomInputField(text: $email, title: "Email", placeholder: "name@example.com")
+                CustomInputField(text: $fullName, title: "Full Name", placeholder: "Enter your name")
                 
-                CustomInputField(text: $password, title: "Password", placeholder: "Enter your password", isSecured: true)
+                CustomInputField(text: $email, title: "Email", placeholder: "Enter your email")
                 
-                CustomInputField(text: $confirmPassword, title: "Password", placeholder: "Enter your password", isSecured: true)
+                CustomInputField(text: $password, title: "Create Password", placeholder: "Enter your password", isSecured: true)
             }
             
             VStack {
@@ -58,7 +60,12 @@ struct SignUpView: View {
                 }
             }
             
-            Button {} label: {
+            Button {
+                authViewModel.signUp(fullName: fullName, email: email, password: password) { authState in
+                    print(authState)
+                }
+                
+            } label: {
                 HStack {
                     Text("SIGN UP")
                         .font(.system(size: 14))
