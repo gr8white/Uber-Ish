@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LandingView: View {
-    @State var showSignIn: Bool = false
+    @State var showSignIn: Bool = true
     
     var body: some View {
         ZStack {

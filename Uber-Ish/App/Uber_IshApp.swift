@@ -20,6 +20,7 @@ struct Uber_IshApp: App {
         WindowGroup {
             HomeView()
                 .environmentObject(locationSearchViewModel)
+                .environmentObject(AuthenticationViewModel.shared)
         }
     }
 }
