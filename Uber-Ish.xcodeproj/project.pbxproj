@@ -21,6 +21,7 @@
 		1B0725BF2A817CBD007DB802 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725BE2A817CBD007DB802 /* LocationSearchView.swift */; };
 		1B0725C12A817F4C007DB802 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725C02A817F4C007DB802 /* LocationSearchResultCell.swift */; };
 		1B0725C32A818B4D007DB802 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0725C22A818B4D007DB802 /* LocationSearchViewModel.swift */; };
+		1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7DF02C2A8DBEFB00163019 /* User.swift */; };
 		1B97C7412A8A72C6003BE57E /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7402A8A72C6003BE57E /* LandingView.swift */; };
 		1B97C7442A8A72DE003BE57E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7432A8A72DE003BE57E /* SignInView.swift */; };
 		1B97C7462A8A72E9003BE57E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7452A8A72E9003BE57E /* SignUpView.swift */; };
@@ -75,6 +76,7 @@
 		1B0725BE2A817CBD007DB802 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		1B0725C02A817F4C007DB802 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
 		1B0725C22A818B4D007DB802 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		1B7DF02C2A8DBEFB00163019 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1B97C7402A8A72C6003BE57E /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		1B97C7432A8A72DE003BE57E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		1B97C7452A8A72E9003BE57E /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				1BD345302A83254C0039D47B /* MapViewState.swift */,
 				1BD7CA9C2A86ACBD00E661B1 /* RideType.swift */,
 				1BD7CAA02A8879FE00E661B1 /* UberIshLocation.swift */,
+				1B7DF02C2A8DBEFB00163019 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				1B0725C12A817F4C007DB802 /* LocationSearchResultCell.swift in Sources */,
 				1B97C7462A8A72E9003BE57E /* SignUpView.swift in Sources */,
 				1BD7CA9D2A86ACBD00E661B1 /* RideType.swift in Sources */,
+				1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

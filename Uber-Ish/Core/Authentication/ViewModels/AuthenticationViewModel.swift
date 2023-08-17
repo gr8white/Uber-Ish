@@ -49,8 +49,19 @@ class AuthenticationViewModel: ObservableObject {
             }
             
             if let authResult = authResult {
-                self.userSession = authResult.user
-                completion(.success)
+                Task {
+                    try await Task.sleep(for:.seconds(1))
+                    
+                    let user = User(fullName: fullName, email: email, uid: authResult.user.uid)
+                    
+                    let encodedUser = try Firestore.Encoder().encode(user)
+                    
+                    try await Firestore.firestore().collection("users").document(authResult.user.uid).setData(encodedUser)
+                    
+                    DispatchQueue.main.async {
+                        self.userSession = authResult.user
+                    }
+                }
             }
         }
     }
