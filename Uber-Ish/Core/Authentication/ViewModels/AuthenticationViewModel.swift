@@ -17,6 +17,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
     
     static let shared = AuthenticationViewModel()
     
@@ -73,6 +74,16 @@ class AuthenticationViewModel: ObservableObject {
             completion(.success)
         } catch {
             completion(.error(.internalError))
+        }
+    }
+    
+    func fetchUser() async {
+        guard
+            let uid = Auth.auth().currentUser?.uid,
+            let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
+        
+        DispatchQueue.main.async {
+            self.currentUser = try? snapshot.data(as: User.self)
         }
     }
 }
