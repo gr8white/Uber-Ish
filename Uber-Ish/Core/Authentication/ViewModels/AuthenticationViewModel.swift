@@ -24,6 +24,21 @@ class AuthenticationViewModel: ObservableObject {
         userSession = Auth.auth().currentUser
     }
     
+    func signIn(email: String, password: String, completion: @escaping (AuthRequestState) -> Void) {
+        completion(.loading)
+        
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error as? NSError, let authError = AuthErrorCode.Code(rawValue: error.code) {
+                completion(.error(authError))
+            }
+            
+            if let authResult = authResult {
+                self.userSession = authResult.user
+                completion(.success)
+            }
+        }
+    }
+    
     func signUp(fullName: String, email: String, password: String, completion: @escaping (AuthRequestState) -> Void) {
         completion(.loading)
         
@@ -32,6 +47,21 @@ class AuthenticationViewModel: ObservableObject {
                 completion(.error(authError))
                 return
             }
+            
+            if let authResult = authResult {
+                self.userSession = authResult.user
+                completion(.success)
+            }
+        }
+    }
+    
+    func signOut(completion: @escaping (AuthRequestState) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            self.userSession = nil
+            completion(.success)
+        } catch {
+            completion(.error(.internalError))
         }
     }
 }
