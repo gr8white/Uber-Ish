@@ -8,40 +8,31 @@
 import SwiftUI
 
 struct SavedLocationRowView: View {
-    let iconName: String
-    let title: String
-    let subtitle: String
+    let viewModel: SavedLocationViewModel
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: iconName)
+            Image(systemName: viewModel.iconName)
                 .imageScale(.medium)
                 .font(.title)
                 .foregroundColor(Color(.systemBlue))
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(title)
+                Text(viewModel.title)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(Color.theme.primaryTextColor)
                 
-                Text(subtitle)
+                Text(viewModel.subtitle)
                     .font(.system(size: 14))
                     .foregroundColor(.gray)
             }
-            
-            Spacer()
-            
-            Image(systemName: "chevron.right")
-                .imageScale(.small)
-                .font(.title2)
-                .foregroundColor(.gray)
         }
     }
 }
 
 struct SettingsOptionView_Previews: PreviewProvider {
     static var previews: some View {
-        SavedLocationRowView(iconName: "house.circle.fill", title: "Home", subtitle: "Add Home")
+        SavedLocationRowView(viewModel: SavedLocationViewModel.home)
             .previewLayout(.sizeThatFits)
     }
 }

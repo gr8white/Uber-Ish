@@ -84,9 +84,14 @@ struct SettingsView: View {
                 }
                 
                 Section("Favorites") {
-                    SavedLocationRowView(iconName: "house.circle.fill", title: "Home", subtitle: "Add Home")
-                    
-                    SavedLocationRowView(iconName: "archivebox.circle.fill", title: "Work", subtitle: "Add Work")
+                    ForEach(SavedLocationViewModel.allCases) { option in
+                        NavigationLink {
+                            
+                        } label: {
+                            SavedLocationRowView(viewModel: option)
+                        }
+
+                    }
                 }
                 
                 Section("Settings") {
