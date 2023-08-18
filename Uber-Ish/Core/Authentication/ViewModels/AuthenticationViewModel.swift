@@ -23,6 +23,7 @@ class AuthenticationViewModel: ObservableObject {
     
     init() {
         userSession = Auth.auth().currentUser
+        fetchUser()
     }
     
     func signIn(email: String, password: String, completion: @escaping (AuthRequestState) -> Void) {
@@ -77,13 +78,16 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    func fetchUser() async {
-        guard
-            let uid = Auth.auth().currentUser?.uid,
-            let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
+    func fetchUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        DispatchQueue.main.async {
-            self.currentUser = try? snapshot.data(as: User.self)
+        Firestore.firestore().collection("users").document(uid).getDocument { snapshot, _ in
+            guard
+                let snapshot = snapshot,
+                let user = try? snapshot.data(as: User.self)
+            else { return }
+            
+            self.currentUser = user
         }
     }
 }

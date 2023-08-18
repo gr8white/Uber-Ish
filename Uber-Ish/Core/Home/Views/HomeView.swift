@@ -15,18 +15,23 @@ struct HomeView: View {
     
     var body: some View {
         Group {
-            if authViewModel.userSession != nil {
-                ZStack {
-                    if showSideMenu {
-                        SideMenuView()
-                    }
-                    
-                    mapView
-                        .offset(x: showSideMenu ? 316: 0)
-                        .shadow(color: showSideMenu ? .black : .clear, radius: 10)
-                }
-            } else {
+            if authViewModel.userSession == nil {
                 LandingView()
+            } else if let user = authViewModel.currentUser {
+                NavigationStack {
+                    ZStack {
+                        if showSideMenu {
+                            SideMenuView(user: user)
+                        }
+                        
+                        mapView
+                            .offset(x: showSideMenu ? 316: 0)
+                            .shadow(color: showSideMenu ? .black : .clear, radius: 10)
+                    }
+                    .onAppear {
+                        showSideMenu = false
+                    }
+                }
             }
         }
     }

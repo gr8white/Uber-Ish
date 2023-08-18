@@ -18,10 +18,10 @@ struct SideMenuOption: View {
             
             Text(viewModel.title)
                 .font(.system(size: 16, weight: .semibold))
-                .padding(6)
             
             Spacer()
         }
+        .foregroundColor(Color.theme.primaryTextColor)
     }
 }
 
