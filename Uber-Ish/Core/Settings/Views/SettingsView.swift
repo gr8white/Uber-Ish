@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     private let user: User
     
     enum SettingsOptions: CaseIterable {
@@ -18,7 +19,7 @@ struct SettingsView: View {
         
         static var settingsSection: [SettingsOptions] = [.notifications, .paymentMethods]
         
-        static var accountSection: [SettingsOptions] = [.createDrivingAccount, .signOut]
+        static var accountSection: [SettingsOptions] = [.createDrivingAccount]
         
         var title: String {
             switch self {
@@ -79,6 +80,7 @@ struct SettingsView: View {
                             .font(.title2)
                             .foregroundColor(.gray)
                     }
+                    .padding(8)
                 }
                 
                 Section("Favorites") {
@@ -97,14 +99,26 @@ struct SettingsView: View {
                     ForEach(SettingsOptions.accountSection, id: \.self) { option in
                         SettingsRowView(iconName: option.iconName, iconColor: option.iconColor, title: option.title)
                     }
+                    
+                    SettingsRowView(iconName: SettingsOptions.signOut.iconName, iconColor: SettingsOptions.signOut.iconColor, title: SettingsOptions.signOut.title)
+                        .onTapGesture {
+                            authViewModel.signOut { state in
+                                print(state)
+                            }
+                        }
                 }
             }
         }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(user: User(fullName: "Test User", email: "test@g.com", uid: ""))
+        NavigationStack{
+            SettingsView(user: User(fullName: "Test User", email: "test@g.com", uid: ""))
+                .environmentObject(AuthenticationViewModel())
+        }
     }
 }
