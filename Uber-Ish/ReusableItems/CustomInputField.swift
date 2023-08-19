@@ -12,6 +12,7 @@ struct CustomInputField: View {
     var title: String
     var placeholder: String
     var isSecured: Bool = false
+    var autoCapitalization: TextInputAutocapitalization = .never
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -23,6 +24,7 @@ struct CustomInputField: View {
                 SecureField(placeholder, text: $text)
             } else {
                 TextField(placeholder, text: $text)
+                    .textInputAutocapitalization(autoCapitalization)
             }
             
             Rectangle()
