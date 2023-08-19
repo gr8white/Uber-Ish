@@ -10,7 +10,6 @@ import SwiftUI
 struct LocationSearchView: View {
     @State private var startLocationText: String = ""
     @EnvironmentObject var viewModel: LocationSearchViewModel
-    @Binding var mapViewState: MapViewState
     
     var body: some View {
         VStack {
@@ -30,13 +29,13 @@ struct LocationSearchView: View {
                 VStack {
                     TextField("Current Location", text: $startLocationText)
                         .frame(height: 32)
-                        .background(Color(
-                        .systemGroupedBackground))
+                        .padding(.leading)
+                        .background(Color(.systemGroupedBackground))
                     
                     TextField("Where to?", text: $viewModel.queryFragment)
                         .frame(height: 32)
-                        .background(Color(
-                        .systemGray4))
+                        .padding(.leading)
+                        .background(Color(.systemGray4))
                 }
             }
             .padding(.horizontal)
@@ -45,19 +44,7 @@ struct LocationSearchView: View {
             Divider()
                 .padding(.vertical)
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.results, id: \.self) { result in
-                        LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
-                            .onTapGesture {
-                                withAnimation(.spring()) {
-                                    viewModel.selectLocation(result)
-                                    mapViewState = .locationSelected
-                                }
-                            }
-                    }
-                }
-            }
+            LocationSearchResultsView(viewModel: viewModel, config: .ride)
         }
         .background(Color.theme.backgroundcolor)
     }
@@ -65,6 +52,7 @@ struct LocationSearchView: View {
 
 struct LocationSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationSearchView(mapViewState: .constant(.searchingForLocation))
+        LocationSearchView()
+            .environmentObject(LocationSearchViewModel())
     }
 }

@@ -8,6 +8,11 @@
 import Foundation
 import MapKit
 
+enum LocationResultsViewConfig {
+    case ride
+    case saveLocation
+}
+
 class LocationSearchViewModel: NSObject, ObservableObject {
     @Published var results: [MKLocalSearchCompletion] = []
     @Published var selectedUberLocation: UberIshLocation?
@@ -28,16 +33,21 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         searchCompleter.queryFragment = queryFragment
     }
     
-    func selectLocation(_ selectedLocation: MKLocalSearchCompletion) {
-        getInfo(forLocalSearhCompletion: selectedLocation) { response, error in
-            if let error = error {
-                print("DEBUG: Local search failed with error: \(error.localizedDescription)")
-                return
+    func selectLocation(_ selectedLocation: MKLocalSearchCompletion, config: LocationResultsViewConfig) {
+        switch config {
+        case .ride:
+            getInfo(forLocalSearhCompletion: selectedLocation) { response, error in
+                if let error = error {
+                    print("DEBUG: Local search failed with error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let item = response?.mapItems.first else { return }
+                
+                self.selectedUberLocation = UberIshLocation(title: selectedLocation.title, coordinate: item.placemark.coordinate)
             }
-            
-            guard let item = response?.mapItems.first else { return }
-            
-            self.selectedUberLocation = UberIshLocation(title: selectedLocation.title, coordinate: item.placemark.coordinate)
+        case .saveLocation:
+            print(selectedLocation)
         }
     }
     

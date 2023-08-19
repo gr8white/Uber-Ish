@@ -28,6 +28,8 @@
 		1B4657C02A9020AE00EB449A /* SavedLocationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4657BF2A9020AE00EB449A /* SavedLocationRowView.swift */; };
 		1B4657C22A9022EF00EB449A /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4657C12A9022EF00EB449A /* SettingsRowView.swift */; };
 		1B4657C42A902D8700EB449A /* SavedLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4657C32A902D8700EB449A /* SavedLocationViewModel.swift */; };
+		1B4D9F2C2A910EF700C400F0 /* SavedLocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F2B2A910EF600C400F0 /* SavedLocationSearchView.swift */; };
+		1B4D9F2E2A911A0400C400F0 /* LocationSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F2D2A911A0400C400F0 /* LocationSearchResultsView.swift */; };
 		1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7DF02C2A8DBEFB00163019 /* User.swift */; };
 		1B97C7412A8A72C6003BE57E /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7402A8A72C6003BE57E /* LandingView.swift */; };
 		1B97C7442A8A72DE003BE57E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7432A8A72DE003BE57E /* SignInView.swift */; };
@@ -90,6 +92,8 @@
 		1B4657BF2A9020AE00EB449A /* SavedLocationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocationRowView.swift; sourceTree = "<group>"; };
 		1B4657C12A9022EF00EB449A /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		1B4657C32A902D8700EB449A /* SavedLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocationViewModel.swift; sourceTree = "<group>"; };
+		1B4D9F2B2A910EF600C400F0 /* SavedLocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocationSearchView.swift; sourceTree = "<group>"; };
+		1B4D9F2D2A911A0400C400F0 /* LocationSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultsView.swift; sourceTree = "<group>"; };
 		1B7DF02C2A8DBEFB00163019 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1B97C7402A8A72C6003BE57E /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		1B97C7432A8A72DE003BE57E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				1B0725BE2A817CBD007DB802 /* LocationSearchView.swift */,
+				1B4D9F2B2A910EF600C400F0 /* SavedLocationSearchView.swift */,
 				1B0725C02A817F4C007DB802 /* LocationSearchResultCell.swift */,
 				1B0725B92A81781C007DB802 /* LocationSearchActivationView.swift */,
 			);
@@ -382,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				1B97C7482A8A8163003BE57E /* CustomInputField.swift */,
+				1B4D9F2D2A911A0400C400F0 /* LocationSearchResultsView.swift */,
 			);
 			path = ReusableItems;
 			sourceTree = "<group>";
@@ -544,6 +550,7 @@
 				1B97C7492A8A8163003BE57E /* CustomInputField.swift in Sources */,
 				1BD7CA9F2A86BD9E00E661B1 /* Double.swift in Sources */,
 				1B97C7442A8A72DE003BE57E /* SignInView.swift in Sources */,
+				1B4D9F2C2A910EF700C400F0 /* SavedLocationSearchView.swift in Sources */,
 				1BD7CAA12A8879FE00E661B1 /* UberIshLocation.swift in Sources */,
 				1BD345312A83254C0039D47B /* MapViewState.swift in Sources */,
 				1B0725BC2A817A06007DB802 /* MapViewActionButton.swift in Sources */,
@@ -557,6 +564,7 @@
 				1B0725BA2A81781C007DB802 /* LocationSearchActivationView.swift in Sources */,
 				1BDF41A82A8B19C0001C1C88 /* AuthenticationViewModel.swift in Sources */,
 				1B0725C12A817F4C007DB802 /* LocationSearchResultCell.swift in Sources */,
+				1B4D9F2E2A911A0400C400F0 /* LocationSearchResultsView.swift in Sources */,
 				1B97C7462A8A72E9003BE57E /* SignUpView.swift in Sources */,
 				1BD7CA9D2A86ACBD00E661B1 /* RideType.swift in Sources */,
 				1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */,
