@@ -88,7 +88,7 @@ struct SettingsView: View {
                         NavigationLink {
                             SavedLocationSearchView(config: option)
                         } label: {
-                            SavedLocationRowView(viewModel: option)
+                            SavedLocationRowView(viewModel: option, user: user)
                         }
 
                     }
