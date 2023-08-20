@@ -23,7 +23,7 @@ struct SignUpView: View {
                 .frame(width: 190)
             
             VStack(spacing: 32) {
-                CustomInputField(text: $fullName, title: "Full Name", placeholder: "Enter your name")
+                CustomInputField(text: $fullName, title: "Full Name", placeholder: "Enter your name", autoCapitalization: .words)
                 
                 CustomInputField(text: $email, title: "Email", placeholder: "Enter your email")
                 

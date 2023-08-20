@@ -7,6 +7,12 @@
 
 import Foundation
 import MapKit
+import Firebase
+
+enum LocationResultsViewConfig {
+    case ride
+    case saveLocation(SavedLocationViewModel)
+}
 
 class LocationSearchViewModel: NSObject, ObservableObject {
     @Published var results: [MKLocalSearchCompletion] = []
@@ -28,7 +34,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         searchCompleter.queryFragment = queryFragment
     }
     
-    func selectLocation(_ selectedLocation: MKLocalSearchCompletion) {
+    func selectLocation(_ selectedLocation: MKLocalSearchCompletion, config: LocationResultsViewConfig) {
         getInfo(forLocalSearhCompletion: selectedLocation) { response, error in
             if let error = error {
                 print("DEBUG: Local search failed with error: \(error.localizedDescription)")
@@ -36,8 +42,22 @@ class LocationSearchViewModel: NSObject, ObservableObject {
             }
             
             guard let item = response?.mapItems.first else { return }
+            let coordinate = item.placemark.coordinate
             
-            self.selectedUberLocation = UberIshLocation(title: selectedLocation.title, coordinate: item.placemark.coordinate)
+            switch config {
+            case .ride:
+                self.selectedUberLocation = UberIshLocation(title: selectedLocation.title, coordinate: coordinate)
+            case .saveLocation(let viewModel):
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                
+                let savedLocation = SavedLocation(title: selectedLocation.title, address: selectedLocation.subtitle, coordinates: GeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                
+                guard let encodedLocation = try? Firestore.Encoder().encode(savedLocation) else { return }
+                
+                Firestore.firestore().collection("users").document(uid).updateData([
+                    viewModel.databaseKey: encodedLocation
+                ])
+            }
         }
     }
     

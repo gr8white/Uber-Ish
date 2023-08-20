@@ -63,6 +63,8 @@ class AuthenticationViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.userSession = authResult.user
                     }
+                    
+                    self.fetchUser()
                 }
             }
         }
