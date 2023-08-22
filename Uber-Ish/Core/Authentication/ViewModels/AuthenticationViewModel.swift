@@ -54,7 +54,13 @@ class AuthenticationViewModel: ObservableObject {
                 Task {
                     try await Task.sleep(for:.seconds(1))
                     
-                    let user = User(fullName: fullName, email: email, uid: authResult.user.uid)
+                    let user = User(
+                        fullName: fullName,
+                        email: email,
+                        uid: authResult.user.uid,
+                        coordinates: GeoPoint(latitude: 37.38, longitude: -122.047),
+                        accountType: .driver
+                    )
                     
                     let encodedUser = try Firestore.Encoder().encode(user)
                     
