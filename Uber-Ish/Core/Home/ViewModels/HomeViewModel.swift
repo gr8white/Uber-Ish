@@ -10,6 +10,8 @@ import Firebase
 import FirebaseFirestoreSwift
 
 class HomeViewModel: ObservableObject {
+    @Published var drivers: [User] = []
+    
     init() {
         fetchDrivers()
     }
@@ -20,9 +22,9 @@ class HomeViewModel: ObservableObject {
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
                 
-                let drivers = documents.map({ try? $0.data(as: User.self)})
+                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
                 
-                print("here", drivers)
+                self.drivers = drivers
             }
     }
 }
