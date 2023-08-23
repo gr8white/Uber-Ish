@@ -76,6 +76,17 @@ extension UberMapViewRepresentable {
             return polylineRenderer
         }
         
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            if let annotation = annotation as? DriverAnnotation {
+                let view = MKAnnotationView(annotation: annotation, reuseIdentifier: "driver")
+                view.image = UIImage(systemName: "car.fill")
+                
+                return view
+            }
+            
+            return nil
+        }
+        
         func addAndSelectAnnotation(withCoordinate coordinate: CLLocationCoordinate2D) {
             parent.mapView.removeAnnotations(parent.mapView.annotations)
             
@@ -107,12 +118,9 @@ extension UberMapViewRepresentable {
         }
         
         func addDriversToMap(_ drivers: [User]) {
-            for driver in drivers {
-                let annotation = MKPointAnnotation()
-                let coordinate = CLLocationCoordinate2D(latitude: driver.coordinates.latitude, longitude: driver.coordinates.longitude)
-                annotation.coordinate = coordinate
-                parent.mapView.addAnnotation(annotation)
-            }
+            let annotations = drivers.map({ DriverAnnotation(driver: $0) })
+            
+            self.parent.mapView.addAnnotations(annotations)
         }
     }
 }
