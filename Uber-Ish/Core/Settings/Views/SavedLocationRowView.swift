@@ -33,7 +33,7 @@ struct SavedLocationRowView: View {
 
 struct SettingsOptionView_Previews: PreviewProvider {
     static var previews: some View {
-        SavedLocationRowView(viewModel: SavedLocationViewModel.home, user: User(fullName: "Test User", email: "test@g.com", uid: ""))
+        SavedLocationRowView(viewModel: SavedLocationViewModel.home, user: dev.mockUser)
             .previewLayout(.sizeThatFits)
     }
 }

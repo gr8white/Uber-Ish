@@ -14,6 +14,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     let locationManager = LocationManager()
     @Binding var mapViewState: MapViewState
     @EnvironmentObject var locationSearchViewModel: LocationSearchViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     
     func makeUIView(context: Context) -> some UIView {
         mapView.delegate = context.coordinator
@@ -28,6 +29,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
         switch mapViewState {
         case .noInput:
             context.coordinator.clearMapViewAndRecenterOnUserLocation()
+            context.coordinator.addDriversToMap(homeViewModel.drivers)
             break
         case .searchingForLocation:
             break
@@ -74,6 +76,17 @@ extension UberMapViewRepresentable {
             return polylineRenderer
         }
         
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            if let annotation = annotation as? DriverAnnotation {
+                let view = MKAnnotationView(annotation: annotation, reuseIdentifier: "driver")
+                view.image = UIImage(systemName: "car.fill")
+                
+                return view
+            }
+            
+            return nil
+        }
+        
         func addAndSelectAnnotation(withCoordinate coordinate: CLLocationCoordinate2D) {
             parent.mapView.removeAnnotations(parent.mapView.annotations)
             
@@ -102,6 +115,12 @@ extension UberMapViewRepresentable {
             if let currentRegion = currentRegion {
                 parent.mapView.setRegion(currentRegion, animated: true)
             }
+        }
+        
+        func addDriversToMap(_ drivers: [User]) {
+            let annotations = drivers.map({ DriverAnnotation(driver: $0) })
+            
+            self.parent.mapView.addAnnotations(annotations)
         }
     }
 }

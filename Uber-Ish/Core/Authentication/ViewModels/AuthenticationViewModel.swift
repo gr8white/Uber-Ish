@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Combine
 
 class AuthenticationViewModel: ObservableObject {
     enum AuthRequestState {
@@ -18,6 +19,9 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    
+    private let userService = UserService.shared
+    private var cancellables = Set<AnyCancellable>()
     
     static let shared = AuthenticationViewModel()
     
@@ -36,6 +40,7 @@ class AuthenticationViewModel: ObservableObject {
             
             if let authResult = authResult {
                 self.userSession = authResult.user
+                self.fetchUser()
                 completion(.success)
             }
         }
@@ -43,6 +48,11 @@ class AuthenticationViewModel: ObservableObject {
     
     func signUp(fullName: String, email: String, password: String, completion: @escaping (AuthRequestState) -> Void) {
         completion(.loading)
+        
+        guard let location = LocationManager.shared.userLocation else {
+            completion(.error(.internalError))
+            return
+        }
         
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error as? NSError, let authError = AuthErrorCode.Code(rawValue: error.code) {
@@ -54,7 +64,13 @@ class AuthenticationViewModel: ObservableObject {
                 Task {
                     try await Task.sleep(for:.seconds(1))
                     
-                    let user = User(fullName: fullName, email: email, uid: authResult.user.uid)
+                    let user = User(
+                        fullName: fullName,
+                        email: email,
+                        uid: authResult.user.uid,
+                        coordinates: GeoPoint(latitude: location.latitude, longitude: location.longitude),
+                        accountType: .passenger
+                    )
                     
                     let encodedUser = try Firestore.Encoder().encode(user)
                     
@@ -62,9 +78,8 @@ class AuthenticationViewModel: ObservableObject {
                     
                     DispatchQueue.main.async {
                         self.userSession = authResult.user
+                        self.currentUser = user
                     }
-                    
-                    self.fetchUser()
                 }
             }
         }
@@ -81,15 +96,10 @@ class AuthenticationViewModel: ObservableObject {
     }
     
     func fetchUser() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        Firestore.firestore().collection("users").document(uid).getDocument { snapshot, _ in
-            guard
-                let snapshot = snapshot,
-                let user = try? snapshot.data(as: User.self)
-            else { return }
-            
-            self.currentUser = user
-        }
+        userService.$user
+            .sink { user in
+                self.currentUser = user
+            }
+            .store(in: &cancellables)
     }
 }

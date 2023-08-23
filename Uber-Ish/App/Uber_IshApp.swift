@@ -10,8 +10,6 @@ import Firebase
 
 @main
 struct Uber_IshApp: App {
-    @StateObject var locationSearchViewModel = LocationSearchViewModel()
-    
     init() {
         FirebaseApp.configure()
     }
@@ -19,7 +17,8 @@ struct Uber_IshApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environmentObject(locationSearchViewModel)
+                .environmentObject(LocationSearchViewModel())
+                .environmentObject(HomeViewModel())
                 .environmentObject(AuthenticationViewModel.shared)
         }
     }
