@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var mapViewState: MapViewState = .noInput
     @State private var showSideMenu: Bool = false
-    @EnvironmentObject var viewModel: LocationSearchViewModel
+//    @EnvironmentObject var viewModel: LocationSearchViewModel
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     
@@ -70,9 +70,9 @@ extension HomeView {
         }
         .edgesIgnoringSafeArea(.bottom)
         .onReceive(LocationManager.shared.$userLocation) { location in
-            viewModel.userLocation = location
+            homeViewModel.userLocation = location
         }
-        .onReceive(viewModel.$selectedUberLocation) { location in
+        .onReceive(homeViewModel.$selectedUberLocation) { location in
             if location != nil {
                 self.mapViewState = .locationSelected
             }
@@ -83,7 +83,7 @@ extension HomeView {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environmentObject(LocationSearchViewModel())
+//            .environmentObject(LocationSearchViewModel())
             .environmentObject(AuthenticationViewModel())
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LocationSearchView: View {
     @State private var startLocationText: String = ""
-    @EnvironmentObject var viewModel: LocationSearchViewModel
+    @EnvironmentObject var viewModel: HomeViewModel
     
     var body: some View {
         VStack {
@@ -53,6 +53,6 @@ struct LocationSearchView: View {
 struct LocationSearchView_Previews: PreviewProvider {
     static var previews: some View {
         LocationSearchView()
-            .environmentObject(LocationSearchViewModel())
+            .environmentObject(HomeViewModel())
     }
 }

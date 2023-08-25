@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationSearchResultsView: View {
-    @StateObject var viewModel: LocationSearchViewModel
+    @StateObject var viewModel: HomeViewModel
     let config: LocationResultsViewConfig
     
     var body: some View {
@@ -29,6 +29,6 @@ struct LocationSearchResultsView: View {
 
 struct LocationResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationSearchResultsView(viewModel: LocationSearchViewModel(), config: .ride)
+        LocationSearchResultsView(viewModel: HomeViewModel(), config: .ride)
     }
 }
