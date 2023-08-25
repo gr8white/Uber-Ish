@@ -128,7 +128,7 @@ struct RideRequestView: View {
             .padding(.horizontal)
             
             Button {
-                
+                viewModel.requestRide()
             } label: {
                 Text("CONFIRM RIDE")
                     .fontWeight(.bold)

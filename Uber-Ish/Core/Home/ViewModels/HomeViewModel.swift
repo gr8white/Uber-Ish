@@ -58,8 +58,8 @@ class HomeViewModel: NSObject, ObservableObject {
     func fetchUser() {
         userService.$user
             .sink { user in
-                guard let user = user else { return }
                 self.currentUser = user
+                guard let user = user else { return }
                 guard user.accountType == .passenger else { return }
                 self.fetchDrivers()
             }
@@ -67,7 +67,66 @@ class HomeViewModel: NSObject, ObservableObject {
     }
 }
 
+// MARK: - Passenger API
 extension HomeViewModel {
+    func requestRide() {
+        guard
+            let driver = drivers.first,
+            let currentUser = currentUser,
+            let dropoffLocation = selectedUberLocation
+        else { return }
+        
+        let dropoffGeoPoint = GeoPoint(latitude: dropoffLocation.coordinate.latitude, longitude: dropoffLocation.coordinate.longitude)
+        let userLocation = CLLocation(latitude: currentUser.coordinates.latitude, longitude: currentUser.coordinates.longitude)
+        
+        getPlacemark(forLocation: userLocation) { placemark, error in
+            guard let placemark = placemark, let placemarkName = placemark.name else { return }
+            
+            let ride = Ride(
+                id: NSUUID().uuidString,
+                passengerUid: currentUser.uid,
+                passengerName: currentUser.fullName,
+                passengerLocation: currentUser.coordinates,
+                driverUid: driver.uid,
+                driverName: driver.fullName,
+                driverLocation: driver.coordinates,
+                pickupLocationName: placemarkName,
+                pickupLocation: currentUser.coordinates,
+                pickupLocationAddress: "123 Main St.",
+                dropoffLocationName: dropoffLocation.title,
+                dropoffLocation: dropoffGeoPoint,
+                tripCost: 50.0
+            )
+            
+            guard let encodedRide = try? Firestore.Encoder().encode(ride) else { return }
+            
+            Firestore.firestore().collection("rides").document().setData(encodedRide) { _ in
+                print("ride was uploaded")
+            }
+        }
+    }
+}
+
+// MARK: - Driver API
+extension HomeViewModel {
+    
+}
+
+
+// MARK: - Location Search Helpers
+extension HomeViewModel {
+    func getPlacemark(forLocation location: CLLocation, completion: @escaping(CLPlacemark?, Error?) -> Void) {
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let placemark = placemarks?.first else { return }
+            completion(placemark, nil)
+        }
+    }
+    
     func selectLocation(_ selectedLocation: MKLocalSearchCompletion, config: LocationResultsViewConfig) {
         getInfo(forLocalSearhCompletion: selectedLocation) { response, error in
             if let error = error {
