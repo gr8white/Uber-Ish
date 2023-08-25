@@ -17,7 +17,7 @@ struct Uber_IshApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environmentObject(LocationSearchViewModel())
+//                .environmentObject(LocationSearchViewModel())
                 .environmentObject(HomeViewModel())
                 .environmentObject(AuthenticationViewModel.shared)
         }

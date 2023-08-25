@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RideRequestView: View {
     @State private var selectedRideType: RideType = .uberX
-    @EnvironmentObject var viewModel: LocationSearchViewModel
+    @EnvironmentObject var viewModel: HomeViewModel
     
     var body: some View {
         VStack {
@@ -128,7 +128,7 @@ struct RideRequestView: View {
             .padding(.horizontal)
             
             Button {
-                
+                viewModel.requestRide()
             } label: {
                 Text("CONFIRM RIDE")
                     .fontWeight(.bold)
@@ -147,6 +147,7 @@ struct RideRequestView: View {
 struct RideRequestView_Previews: PreviewProvider {
     static var previews: some View {
         RideRequestView()
+            .environmentObject(HomeViewModel())
             .previewLayout(.sizeThatFits)
     }
 }
