@@ -41,7 +41,7 @@ struct AcceptRideView: View {
                     Spacer()
                     
                     VStack {
-                        Text("10")
+                        Text("\(ride.travelTime ?? 0)")
                         
                         Text("min")
                     }
@@ -108,7 +108,7 @@ struct AcceptRideView: View {
                     Spacer()
                     
                     VStack {
-                        Text("5.2")
+                        Text(ride.distanceToPassenger?.distanceInMilesString() ?? "")
                             .font(.headline)
                             .fontWeight(.semibold)
                         
@@ -136,7 +136,7 @@ struct AcceptRideView: View {
                         .font(.headline)
                         .fontWeight(.bold)
                         .padding()
-                        .frame(width: UIScreen.main.bounds.width/2 - 32, height: 56)
+                        .frame(width: UIScreen.main.bounds.width/2 - 32, height: 50)
                         .background(Color(.systemRed))
                         .cornerRadius(10)
                         .foregroundColor(.white)
@@ -150,8 +150,7 @@ struct AcceptRideView: View {
                     Text("Accept")
                         .font(.headline)
                         .fontWeight(.bold)
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width/2 - 32, height: 56)
+                        .frame(width: UIScreen.main.bounds.width/2 - 32, height: 50)
                         .background(Color(.systemBlue))
                         .cornerRadius(10)
                         .foregroundColor(.white)
@@ -159,7 +158,10 @@ struct AcceptRideView: View {
             }
             .padding()
         }
+        .padding(.bottom, 20)
         .background(Color.theme.backgroundcolor)
+        .cornerRadius(32)
+        .shadow(color: Color.theme.secondaryBackgroundColor, radius: 10)
     }
 }
 

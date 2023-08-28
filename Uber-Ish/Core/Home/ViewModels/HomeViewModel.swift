@@ -75,7 +75,9 @@ extension HomeViewModel {
         getPlacemark(forLocation: userLocation) { placemark, error in
             guard let placemark = placemark, let placemarkName = placemark.name else { return }
             
-            let ride = Ride(
+            let tripCost = self.computeRidePrice(for: .uberX)
+            
+            var ride = Ride(
                 id: NSUUID().uuidString,
                 passengerUid: currentUser.uid,
                 passengerName: currentUser.fullName,
@@ -85,17 +87,23 @@ extension HomeViewModel {
                 driverLocation: driver.coordinates,
                 pickupLocationName: placemarkName,
                 pickupLocation: currentUser.coordinates,
-                pickupLocationAddress: "123 Main St.",
+                pickupLocationAddress: self.getAddressFromPlacemark(placemark),
                 dropoffLocationName: dropoffLocation.title,
                 dropoffLocation: dropoffGeoPoint,
-                tripCost: 50.0
+                tripCost: tripCost
             )
             
-            guard let encodedRide = try? Firestore.Encoder().encode(ride) else { return }
-            
-            Firestore.firestore().collection("rides").document().setData(encodedRide) { _ in
-                print("ride was uploaded")
+            self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.dropoffLocation.toCoordinate()) { route in
+                ride.travelTime = Int(route.expectedTravelTime / 60)
+                ride.distanceToPassenger = route.distance
+                
+                guard let encodedRide = try? Firestore.Encoder().encode(ride) else { return }
+                
+                Firestore.firestore().collection("rides").document().setData(encodedRide) { _ in
+                    print("ride was uploaded")
+                }
             }
+            
         }
     }
     
@@ -220,6 +228,24 @@ extension HomeViewModel {
         
         pickUpTime = formatter.string(from: Date())
         dropOffTime = formatter.string(from: Date() + expectedTravelTime)
+    }
+    
+    func getAddressFromPlacemark(_ placemark: CLPlacemark) -> String {
+        var result = ""
+        
+        if let thoroughfare = placemark.thoroughfare {
+            result += thoroughfare
+        }
+        
+        if let subThoroughfare = placemark.subThoroughfare {
+            result += " \(subThoroughfare)"
+        }
+        
+        if let subAdministrativeArea = placemark.subAdministrativeArea {
+            result += ", \(subAdministrativeArea)"
+        }
+        
+        return result
     }
 }
 
