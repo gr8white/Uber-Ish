@@ -1,5 +1,5 @@
 //
-//  AcceptTripView.swift
+//  AcceptRideView.swift
 //  Uber-Ish
 //
 //  Created by Cool-Ish on 8/25/23.
@@ -8,14 +8,18 @@
 import SwiftUI
 import MapKit
 
-struct AcceptTripView: View {
+struct AcceptRideView: View {
     @State private var region: MKCoordinateRegion
+    let ride: Ride
+    let annotationItem: UberIshLocation
     
-    init() {
-        let center = CLLocationCoordinate2D(latitude: 37.3346, longitude: -122.0090)
+    init(ride: Ride) {
+        let center = CLLocationCoordinate2D(latitude: ride.pickupLocation.latitude, longitude: ride.pickupLocation.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025)
         
         self.region = MKCoordinateRegion(center: center, span: span)
+        self.ride = ride
+        self.annotationItem = UberIshLocation(title: ride.pickupLocationName, coordinate: ride.pickupLocation.toCoordinate())
     }
     
     var body: some View {
@@ -61,7 +65,7 @@ struct AcceptTripView: View {
                         .clipShape(Circle())
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("DERRICK")
+                        Text(ride.passengerName)
                             .fontWeight(.bold)
                         
                         HStack {
@@ -80,7 +84,7 @@ struct AcceptTripView: View {
                     VStack(spacing: 4) {
                         Text("Earnings")
                         
-                        Text("$22.04")
+                        Text(ride.tripCost.toCurrency())
                             .font(.system(size: 24, weight: .semibold))
                     }
                 }
@@ -92,11 +96,11 @@ struct AcceptTripView: View {
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Apple Campus")
+                        Text(ride.pickupLocationName)
                             .font(.headline)
                             .fontWeight(.semibold)
                         
-                        Text("Infinite Loop 1, Santa Clara County")
+                        Text(ride.pickupLocationAddress)
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
@@ -115,11 +119,13 @@ struct AcceptTripView: View {
                 }
                 .padding()
                 
-                Map(coordinateRegion: $region)
-                    .frame(height: 220)
-                    .cornerRadius(10)
-                    .shadow(color: .black.opacity(0.6), radius: 10)
-                    .padding(.horizontal)
+                Map(coordinateRegion: $region, annotationItems: [annotationItem]) { item in
+                    MapMarker(coordinate: item.coordinate)
+                }
+                .frame(height: 220)
+                .cornerRadius(10)
+                .shadow(color: .black.opacity(0.6), radius: 10)
+                .padding(.horizontal)
             }
             
             HStack {
@@ -153,11 +159,12 @@ struct AcceptTripView: View {
             }
             .padding()
         }
+        .background(Color.theme.backgroundcolor)
     }
 }
 
-struct AcceptTripView_Previews: PreviewProvider {
+struct AcceptRideView_Previews: PreviewProvider {
     static var previews: some View {
-        AcceptTripView()
+        AcceptRideView(ride: dev.mockRide)
     }
 }

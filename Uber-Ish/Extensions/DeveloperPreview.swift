@@ -25,4 +25,20 @@ class DeveloperPreview {
         coordinates: GeoPoint(latitude: 37.785834, longitude: -122.406417),
         accountType: .passenger
     )
+    
+    let mockRide = Ride(
+        id: NSUUID().uuidString,
+        passengerUid: NSUUID().uuidString,
+        passengerName: "Derrick",
+        passengerLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
+        driverUid: NSUUID().uuidString,
+        driverName: "Sydni",
+        driverLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
+        pickupLocationName: "Apple Campus",
+        pickupLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
+        pickupLocationAddress: "123 Main St.",
+        dropoffLocationName: "Starbucks",
+        dropoffLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
+        tripCost: 30.0
+    )
 }

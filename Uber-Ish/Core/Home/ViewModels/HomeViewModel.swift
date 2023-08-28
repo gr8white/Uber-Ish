@@ -15,6 +15,7 @@ class HomeViewModel: NSObject, ObservableObject {
     // MARK: - Properties
     @Published var drivers: [User] = []
     @Published var currentUser: User?
+    @Published var ride: Ride?
     
     private let userService = UserService.shared
     private var cancellables = Set<AnyCancellable>()
@@ -42,18 +43,6 @@ class HomeViewModel: NSObject, ObservableObject {
     }
     
     // MARK: - User API
-    
-    func fetchDrivers () {
-        Firestore.firestore().collection("users")
-            .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
-            .getDocuments { snapshot, _ in
-                guard let documents = snapshot?.documents else { return }
-                
-                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
-                
-                self.drivers = drivers
-            }
-    }
     
     func fetchUser() {
         userService.$user
@@ -109,6 +98,19 @@ extension HomeViewModel {
             }
         }
     }
+    
+    
+    func fetchDrivers () {
+        Firestore.firestore().collection("users")
+            .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
+            .getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else { return }
+                
+                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
+                
+                self.drivers = drivers
+            }
+    }
 }
 
 // MARK: - Driver API
@@ -120,7 +122,7 @@ extension HomeViewModel {
             guard let documents = snapshot?.documents, let document = documents.first else { return }
             guard let ride = try? document.data(as: Ride.self) else { return }
             
-            print(ride)
+            self.ride = ride
         }
     }
 }
