@@ -22,4 +22,7 @@ struct Ride: Identifiable, Codable {
     let dropoffLocationName: String
     let dropoffLocation: GeoPoint
     let tripCost: Double
+    
+    var distanceToPassenger: Double?
+    var travelTime: Int?
 }

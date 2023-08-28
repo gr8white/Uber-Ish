@@ -15,6 +15,7 @@ class HomeViewModel: NSObject, ObservableObject {
     // MARK: - Properties
     @Published var drivers: [User] = []
     @Published var currentUser: User?
+    @Published var ride: Ride?
     
     private let userService = UserService.shared
     private var cancellables = Set<AnyCancellable>()
@@ -43,25 +44,17 @@ class HomeViewModel: NSObject, ObservableObject {
     
     // MARK: - User API
     
-    func fetchDrivers () {
-        Firestore.firestore().collection("users")
-            .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
-            .getDocuments { snapshot, _ in
-                guard let documents = snapshot?.documents else { return }
-                
-                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
-                
-                self.drivers = drivers
-            }
-    }
-    
     func fetchUser() {
         userService.$user
             .sink { user in
                 self.currentUser = user
                 guard let user = user else { return }
-                guard user.accountType == .passenger else { return }
-                self.fetchDrivers()
+                
+                if user.accountType == .passenger {
+                    self.fetchDrivers()
+                } else {
+                    self.fetchRides()
+                }
             }
             .store(in: &cancellables)
     }
@@ -82,7 +75,9 @@ extension HomeViewModel {
         getPlacemark(forLocation: userLocation) { placemark, error in
             guard let placemark = placemark, let placemarkName = placemark.name else { return }
             
-            let ride = Ride(
+            let tripCost = self.computeRidePrice(for: .uberX)
+            
+            var ride = Ride(
                 id: NSUUID().uuidString,
                 passengerUid: currentUser.uid,
                 passengerName: currentUser.fullName,
@@ -92,24 +87,52 @@ extension HomeViewModel {
                 driverLocation: driver.coordinates,
                 pickupLocationName: placemarkName,
                 pickupLocation: currentUser.coordinates,
-                pickupLocationAddress: "123 Main St.",
+                pickupLocationAddress: self.getAddressFromPlacemark(placemark),
                 dropoffLocationName: dropoffLocation.title,
                 dropoffLocation: dropoffGeoPoint,
-                tripCost: 50.0
+                tripCost: tripCost
             )
             
-            guard let encodedRide = try? Firestore.Encoder().encode(ride) else { return }
-            
-            Firestore.firestore().collection("rides").document().setData(encodedRide) { _ in
-                print("ride was uploaded")
+            self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.dropoffLocation.toCoordinate()) { route in
+                ride.travelTime = Int(route.expectedTravelTime / 60)
+                ride.distanceToPassenger = route.distance
+                
+                guard let encodedRide = try? Firestore.Encoder().encode(ride) else { return }
+                
+                Firestore.firestore().collection("rides").document().setData(encodedRide) { _ in
+                    print("ride was uploaded")
+                }
             }
+            
         }
+    }
+    
+    
+    func fetchDrivers () {
+        Firestore.firestore().collection("users")
+            .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
+            .getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else { return }
+                
+                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
+                
+                self.drivers = drivers
+            }
     }
 }
 
 // MARK: - Driver API
 extension HomeViewModel {
-    
+    func fetchRides() {
+        guard let currentUser = currentUser, currentUser.accountType == .driver else  { return }
+        
+        Firestore.firestore().collection("rides").whereField("driverUid", isEqualTo: currentUser.uid).getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents, let document = documents.first else { return }
+            guard let ride = try? document.data(as: Ride.self) else { return }
+            
+            self.ride = ride
+        }
+    }
 }
 
 
@@ -205,6 +228,24 @@ extension HomeViewModel {
         
         pickUpTime = formatter.string(from: Date())
         dropOffTime = formatter.string(from: Date() + expectedTravelTime)
+    }
+    
+    func getAddressFromPlacemark(_ placemark: CLPlacemark) -> String {
+        var result = ""
+        
+        if let thoroughfare = placemark.thoroughfare {
+            result += thoroughfare
+        }
+        
+        if let subThoroughfare = placemark.subThoroughfare {
+            result += " \(subThoroughfare)"
+        }
+        
+        if let subAdministrativeArea = placemark.subAdministrativeArea {
+            result += ", \(subAdministrativeArea)"
+        }
+        
+        return result
     }
 }
 
