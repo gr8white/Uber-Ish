@@ -163,8 +163,14 @@ extension HomeViewModel {
     private func updateRideState(_ ride: Ride?, state: RideState) {
         guard let ride = ride else { return }
         
+        var data = ["state": state.rawValue]
+        
+        if state == .accepted {
+            data["travelTime"] = ride.travelTime
+        }
+        
         Firestore.firestore().collection("rides").document(ride.id)
-            .updateData([ "state": state.rawValue ]) { _ in
+            .updateData(data) { _ in
                 print("Did update trip with \(state)")
             }
     }

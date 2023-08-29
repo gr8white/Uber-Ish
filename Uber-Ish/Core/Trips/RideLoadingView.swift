@@ -16,15 +16,8 @@ struct RideLoadingView: View {
                 .padding(.top, 12)
             
             HStack {
-                VStack(alignment: .leading) {
-                    Text("Finding you a ride")
-                        .font(.headline)
-                    
-                    Text("Arriving at 1:30 PM")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color(.systemBlue))
-                }
+                Text("Connecting you to a driver")
+                    .font(.headline)
                 
                 Spacer()
                 
