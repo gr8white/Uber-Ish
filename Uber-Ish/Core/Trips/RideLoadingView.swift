@@ -10,8 +10,28 @@ import SwiftUI
 struct RideLoadingView: View {
     var body: some View {
         VStack {
-            Text("Finding you a ride")
-                .padding()
+            Capsule()
+                .foregroundColor(Color(.systemGray5))
+                .frame(width: 48, height: 6)
+                .padding(.top, 12)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Finding you a ride")
+                        .font(.headline)
+                    
+                    Text("Arriving at 1:30 PM")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color(.systemBlue))
+                }
+                
+                Spacer()
+                
+                LoadingSpinner(lineWidth: 6, height: 64, width: 64)
+            }
+            .padding()
+            .padding(.bottom, 24)
         }
         .background(Color.theme.backgroundcolor)
         .cornerRadius(32)
