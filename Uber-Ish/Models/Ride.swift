@@ -5,11 +5,11 @@
 //  Created by Cool-Ish on 8/25/23.
 //
 
-import Foundation
 import Firebase
+import FirebaseFirestoreSwift
 
 struct Ride: Identifiable, Codable {
-    let id: String
+    @DocumentID var rideId: String?
     let passengerUid: String
     let passengerName: String
     let passengerLocation: GeoPoint
@@ -25,4 +25,16 @@ struct Ride: Identifiable, Codable {
     
     var distanceToPassenger: Double?
     var travelTime: Int?
+    var state: RideState
+    
+    var id: String {
+        return rideId ?? ""
+    }
+}
+
+enum RideState: Int, Codable {
+    case requested
+    case rejected
+    case accepted
+    case completed
 }

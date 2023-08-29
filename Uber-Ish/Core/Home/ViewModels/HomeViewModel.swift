@@ -78,7 +78,6 @@ extension HomeViewModel {
             let tripCost = self.computeRidePrice(for: .uberX)
             
             var ride = Ride(
-                id: NSUUID().uuidString,
                 passengerUid: currentUser.uid,
                 passengerName: currentUser.fullName,
                 passengerLocation: currentUser.coordinates,
@@ -90,7 +89,8 @@ extension HomeViewModel {
                 pickupLocationAddress: self.getAddressFromPlacemark(placemark),
                 dropoffLocationName: dropoffLocation.title,
                 dropoffLocation: dropoffGeoPoint,
-                tripCost: tripCost
+                tripCost: tripCost,
+                state: .requested
             )
             
             self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.dropoffLocation.toCoordinate()) { route in
@@ -132,6 +132,23 @@ extension HomeViewModel {
             
             self.ride = ride
         }
+    }
+    
+    func rejectTrip() {
+        updateRideState(ride, state: .rejected)
+    }
+    
+    func acceptRide() {
+        updateRideState(ride, state: .accepted)
+    }
+    
+    private func updateRideState(_ ride: Ride?, state: RideState) {
+        guard let ride = ride else { return }
+        
+        Firestore.firestore().collection("rides").document(ride.id)
+            .updateData([ "state": state.rawValue ]) { _ in
+                print("Did update trip with \(state)")
+            }
     }
 }
 
