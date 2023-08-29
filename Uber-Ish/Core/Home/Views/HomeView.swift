@@ -66,6 +66,14 @@ extension HomeView {
                     if mapViewState == .locationSelected || mapViewState == .polylineAdded {
                         RideRequestView()
                             .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideRequested {
+                        RideLoadingView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideAccepted {
+                        RideAcceptedView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideRejected {
+                        
                     }
                 } else {
                     if let ride = homeViewModel.ride {
@@ -87,10 +95,12 @@ extension HomeView {
         .onReceive(homeViewModel.$ride) { ride in
             guard let ride = ride else { return }
             
-            switch ride.state {
-            case .requested: print("requested")
-            case .rejected: print("rejected")
-            case .accepted: print("accepted")
+            withAnimation(.spring()) {
+                switch ride.state {
+                case .requested: self.mapViewState = .rideRequested
+                case .rejected: self.mapViewState = .rideRejected
+                case .accepted: self.mapViewState = .rideAccepted
+                }
             }
         }
     }

@@ -38,6 +38,8 @@
 		1B4D9F3B2A98FA0700C400F0 /* AcceptRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F3A2A98FA0700C400F0 /* AcceptRideView.swift */; };
 		1B4D9F3D2A9900C300C400F0 /* Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F3C2A9900C300C400F0 /* Ride.swift */; };
 		1B4D9F3F2A9D1B9700C400F0 /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F3E2A9D1B9700C400F0 /* GeoPoint.swift */; };
+		1B4D9F412A9D964900C400F0 /* RideLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */; };
+		1B4D9F432A9D968400C400F0 /* RideAcceptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */; };
 		1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7DF02C2A8DBEFB00163019 /* User.swift */; };
 		1B97C7412A8A72C6003BE57E /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7402A8A72C6003BE57E /* LandingView.swift */; };
 		1B97C7442A8A72DE003BE57E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7432A8A72DE003BE57E /* SignInView.swift */; };
@@ -110,6 +112,8 @@
 		1B4D9F3A2A98FA0700C400F0 /* AcceptRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptRideView.swift; sourceTree = "<group>"; };
 		1B4D9F3C2A9900C300C400F0 /* Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ride.swift; sourceTree = "<group>"; };
 		1B4D9F3E2A9D1B9700C400F0 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
+		1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideLoadingView.swift; sourceTree = "<group>"; };
+		1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideAcceptedView.swift; sourceTree = "<group>"; };
 		1B7DF02C2A8DBEFB00163019 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1B97C7402A8A72C6003BE57E /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		1B97C7432A8A72DE003BE57E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -427,6 +431,8 @@
 			isa = PBXGroup;
 			children = (
 				1BD345352A83FDE60039D47B /* RideRequestView.swift */,
+				1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */,
+				1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */,
 				1B4D9F3A2A98FA0700C400F0 /* AcceptRideView.swift */,
 			);
 			path = Trips;
@@ -605,10 +611,12 @@
 				1B0725C12A817F4C007DB802 /* LocationSearchResultCell.swift in Sources */,
 				1B4D9F322A957EF200C400F0 /* DeveloperPreview.swift in Sources */,
 				1B4D9F2E2A911A0400C400F0 /* LocationSearchResultsView.swift in Sources */,
+				1B4D9F432A9D968400C400F0 /* RideAcceptedView.swift in Sources */,
 				1B97C7462A8A72E9003BE57E /* SignUpView.swift in Sources */,
 				1BD7CA9D2A86ACBD00E661B1 /* RideType.swift in Sources */,
 				1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */,
 				1B4657C22A9022EF00EB449A /* SettingsRowView.swift in Sources */,
+				1B4D9F412A9D964900C400F0 /* RideLoadingView.swift in Sources */,
 				1B4657C42A902D8700EB449A /* SavedLocationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

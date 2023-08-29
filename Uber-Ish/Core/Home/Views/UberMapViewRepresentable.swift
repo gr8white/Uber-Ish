@@ -13,7 +13,6 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     let mapView = MKMapView()
     let locationManager = LocationManager()
     @Binding var mapViewState: MapViewState
-//    @EnvironmentObject var locationSearchViewModel: LocationSearchViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     
     func makeUIView(context: Context) -> some UIView {
@@ -31,15 +30,13 @@ struct UberMapViewRepresentable: UIViewRepresentable {
             context.coordinator.clearMapViewAndRecenterOnUserLocation()
             context.coordinator.addDriversToMap(homeViewModel.drivers)
             break
-        case .searchingForLocation:
-            break
         case .locationSelected:
             if let coordinate = homeViewModel.selectedUberLocation?.coordinate {
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
                 context.coordinator.configurePolyLine(to: coordinate)
             }
             break
-        case .polylineAdded:
+        default:
             break
         }
     }
