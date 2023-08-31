@@ -77,8 +77,13 @@ extension HomeView {
                     }
                 } else {
                     if let ride = homeViewModel.ride {
-                        AcceptRideView(ride: ride)
-                            .transition(.move(edge: .bottom))
+                        if mapViewState == .rideRequested {
+                            AcceptRideView(ride: ride)
+                                .transition(.move(edge: .bottom))
+                        } else if mapViewState == .rideAccepted {
+                            PickupPassengerView(ride: ride)
+                                .transition(.move(edge: .bottom))
+                        }
                     }
                 }
             }

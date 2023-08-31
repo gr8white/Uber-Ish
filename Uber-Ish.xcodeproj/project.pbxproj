@@ -41,6 +41,7 @@
 		1B4D9F412A9D964900C400F0 /* RideLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */; };
 		1B4D9F432A9D968400C400F0 /* RideAcceptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */; };
 		1B4D9F472A9D9A4A00C400F0 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F462A9D9A4A00C400F0 /* LoadingSpinner.swift */; };
+		1B4D9F4B2AA0038D00C400F0 /* PickupPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D9F4A2AA0038D00C400F0 /* PickupPassengerView.swift */; };
 		1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7DF02C2A8DBEFB00163019 /* User.swift */; };
 		1B97C7412A8A72C6003BE57E /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7402A8A72C6003BE57E /* LandingView.swift */; };
 		1B97C7442A8A72DE003BE57E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B97C7432A8A72DE003BE57E /* SignInView.swift */; };
@@ -116,6 +117,7 @@
 		1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideLoadingView.swift; sourceTree = "<group>"; };
 		1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideAcceptedView.swift; sourceTree = "<group>"; };
 		1B4D9F462A9D9A4A00C400F0 /* LoadingSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
+		1B4D9F4A2AA0038D00C400F0 /* PickupPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupPassengerView.swift; sourceTree = "<group>"; };
 		1B7DF02C2A8DBEFB00163019 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1B97C7402A8A72C6003BE57E /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		1B97C7432A8A72DE003BE57E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -237,7 +239,7 @@
 				1B4657BA2A901E6F00EB449A /* Settings */,
 				1B4657B12A8F11E200EB449A /* SideMenu */,
 				1B97C73D2A8A72A1003BE57E /* Authentication */,
-				1BD345342A83FDD10039D47B /* Trips */,
+				1BD345342A83FDD10039D47B /* Rides */,
 				1B0725B62A8177E3007DB802 /* LocationSearch */,
 				1B0725B52A8177C3007DB802 /* Home */,
 			);
@@ -393,6 +395,25 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		1B4D9F482AA0033700C400F0 /* Drivers */ = {
+			isa = PBXGroup;
+			children = (
+				1B4D9F3A2A98FA0700C400F0 /* AcceptRideView.swift */,
+				1B4D9F4A2AA0038D00C400F0 /* PickupPassengerView.swift */,
+			);
+			path = Drivers;
+			sourceTree = "<group>";
+		};
+		1B4D9F492AA0033E00C400F0 /* Passengers */ = {
+			isa = PBXGroup;
+			children = (
+				1BD345352A83FDE60039D47B /* RideRequestView.swift */,
+				1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */,
+				1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */,
+			);
+			path = Passengers;
+			sourceTree = "<group>";
+		};
 		1B97C73D2A8A72A1003BE57E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,15 +451,13 @@
 			path = ReusableItems;
 			sourceTree = "<group>";
 		};
-		1BD345342A83FDD10039D47B /* Trips */ = {
+		1BD345342A83FDD10039D47B /* Rides */ = {
 			isa = PBXGroup;
 			children = (
-				1BD345352A83FDE60039D47B /* RideRequestView.swift */,
-				1B4D9F402A9D964900C400F0 /* RideLoadingView.swift */,
-				1B4D9F422A9D968400C400F0 /* RideAcceptedView.swift */,
-				1B4D9F3A2A98FA0700C400F0 /* AcceptRideView.swift */,
+				1B4D9F492AA0033E00C400F0 /* Passengers */,
+				1B4D9F482AA0033700C400F0 /* Drivers */,
 			);
-			path = Trips;
+			path = Rides;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -604,6 +623,7 @@
 				1B4657C02A9020AE00EB449A /* SavedLocationRowView.swift in Sources */,
 				1BD7CAA32A88837000E661B1 /* Color.swift in Sources */,
 				1B4657BE2A901E8B00EB449A /* SettingsView.swift in Sources */,
+				1B4D9F4B2AA0038D00C400F0 /* PickupPassengerView.swift in Sources */,
 				1B4D9F362A95A10F00C400F0 /* DriverAnnotation.swift in Sources */,
 				1B4D9F392A95B28A00C400F0 /* UserService.swift in Sources */,
 				1B07257E2A7D8DCC007DB802 /* Uber_IshApp.swift in Sources */,

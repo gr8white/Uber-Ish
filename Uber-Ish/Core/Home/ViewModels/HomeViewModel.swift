@@ -54,7 +54,7 @@ class HomeViewModel: NSObject, ObservableObject {
                     self.fetchDrivers()
                     self.addTripObserverForPassenger()
                 } else {
-                    self.fetchRides()
+                    self.addTripObserverForDriver()
                 }
             }
             .store(in: &cancellables)
@@ -134,7 +134,6 @@ extension HomeViewModel {
                 guard let ride = try? change.document.data(as: Ride.self) else { return }
                 
                 self.ride = ride
-                print("trip is \(ride.state)")
         }
     }
 }
@@ -173,6 +172,23 @@ extension HomeViewModel {
             .updateData(data) { _ in
                 print("Did update trip with \(state)")
             }
+    }
+    
+    func addTripObserverForDriver() {
+        guard let currentUser = currentUser, currentUser.accountType == .driver else { return }
+        
+        Firestore.firestore().collection("rides")
+            .whereField("driverUid", isEqualTo: currentUser.uid)
+            .addSnapshotListener { snapshot, _ in
+                guard
+                    let change = snapshot?.documentChanges.first,
+                    change.type == .added || change.type == .modified
+                else { return }
+                
+                guard let ride = try? change.document.data(as: Ride.self) else { return }
+                
+                self.ride = ride
+        }
     }
 }
 
