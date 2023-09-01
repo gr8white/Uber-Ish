@@ -61,15 +61,31 @@ extension HomeView {
                     .padding(.leading)
                     .padding(.top, 4)
             }
-            
-            if mapViewState == .locationSelected || mapViewState == .polylineAdded {
-                RideRequestView()
-                    .transition(.move(edge: .bottom))
-            }
-            
-            if let ride = homeViewModel.ride {
-                AcceptRideView(ride: ride)
-                    .transition(.move(edge: .bottom))
+            if let user = authViewModel.currentUser {
+                if user.accountType == .passenger {
+                    if mapViewState == .locationSelected || mapViewState == .polylineAdded {
+                        RideRequestView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideRequested {
+                        RideLoadingView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideAccepted {
+                        RideAcceptedView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapViewState == .rideRejected {
+                        
+                    }
+                } else {
+                    if let ride = homeViewModel.ride {
+                        if mapViewState == .rideRequested {
+                            AcceptRideView(ride: ride)
+                                .transition(.move(edge: .bottom))
+                        } else if mapViewState == .rideAccepted {
+                            PickupPassengerView(ride: ride)
+                                .transition(.move(edge: .bottom))
+                        }
+                    }
+                }
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -79,6 +95,17 @@ extension HomeView {
         .onReceive(homeViewModel.$selectedUberLocation) { location in
             if location != nil {
                 self.mapViewState = .locationSelected
+            }
+        }
+        .onReceive(homeViewModel.$ride) { ride in
+            guard let ride = ride else { return }
+            
+            withAnimation(.spring()) {
+                switch ride.state {
+                case .requested: self.mapViewState = .rideRequested
+                case .rejected: self.mapViewState = .rideRejected
+                case .accepted: self.mapViewState = .rideAccepted
+                }
             }
         }
     }

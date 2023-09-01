@@ -27,7 +27,6 @@ class DeveloperPreview {
     )
     
     let mockRide = Ride(
-        id: NSUUID().uuidString,
         passengerUid: NSUUID().uuidString,
         passengerName: "Derrick",
         passengerLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
@@ -41,6 +40,7 @@ class DeveloperPreview {
         dropoffLocation: GeoPoint(latitude: 37.785834, longitude: -122.406417),
         tripCost: 30.0,
         distanceToPassenger: 1000,
-        travelTime: 30
+        travelTime: 30,
+        state: .requested
     )
 }

@@ -16,6 +16,7 @@ class HomeViewModel: NSObject, ObservableObject {
     @Published var drivers: [User] = []
     @Published var currentUser: User?
     @Published var ride: Ride?
+    var routeToPickupLocation: MKRoute?
     
     private let userService = UserService.shared
     private var cancellables = Set<AnyCancellable>()
@@ -52,8 +53,9 @@ class HomeViewModel: NSObject, ObservableObject {
                 
                 if user.accountType == .passenger {
                     self.fetchDrivers()
+                    self.addTripObserverForPassenger()
                 } else {
-                    self.fetchRides()
+                    self.addTripObserverForDriver()
                 }
             }
             .store(in: &cancellables)
@@ -78,7 +80,6 @@ extension HomeViewModel {
             let tripCost = self.computeRidePrice(for: .uberX)
             
             var ride = Ride(
-                id: NSUUID().uuidString,
                 passengerUid: currentUser.uid,
                 passengerName: currentUser.fullName,
                 passengerLocation: currentUser.coordinates,
@@ -90,7 +91,8 @@ extension HomeViewModel {
                 pickupLocationAddress: self.getAddressFromPlacemark(placemark),
                 dropoffLocationName: dropoffLocation.title,
                 dropoffLocation: dropoffGeoPoint,
-                tripCost: tripCost
+                tripCost: tripCost,
+                state: .requested
             )
             
             self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.dropoffLocation.toCoordinate()) { route in
@@ -103,10 +105,8 @@ extension HomeViewModel {
                     print("ride was uploaded")
                 }
             }
-            
         }
     }
-    
     
     func fetchDrivers () {
         Firestore.firestore().collection("users")
@@ -118,6 +118,23 @@ extension HomeViewModel {
                 
                 self.drivers = drivers
             }
+    }
+    
+    func addTripObserverForPassenger() {
+        guard let currentUser = currentUser, currentUser.accountType == .passenger else { return }
+        
+        Firestore.firestore().collection("rides")
+            .whereField("passengerUid", isEqualTo: currentUser.uid)
+            .addSnapshotListener { snapshot, _ in
+                guard
+                    let change = snapshot?.documentChanges.first,
+                    change.type == .added || change.type == .modified
+                else { return }
+                
+                guard let ride = try? change.document.data(as: Ride.self) else { return }
+                
+                self.ride = ride
+        }
     }
 }
 
@@ -131,6 +148,52 @@ extension HomeViewModel {
             guard let ride = try? document.data(as: Ride.self) else { return }
             
             self.ride = ride
+        }
+    }
+    
+    func rejectTrip() {
+        updateRideState(ride, state: .rejected)
+    }
+    
+    func acceptRide() {
+        updateRideState(ride, state: .accepted)
+    }
+    
+    private func updateRideState(_ ride: Ride?, state: RideState) {
+        guard let ride = ride else { return }
+        
+        var data = ["state": state.rawValue]
+        
+        if state == .accepted {
+            data["travelTime"] = ride.travelTime
+        }
+        
+        Firestore.firestore().collection("rides").document(ride.id)
+            .updateData(data) { _ in
+                print("Did update trip with \(state)")
+            }
+    }
+    
+    func addTripObserverForDriver() {
+        guard let currentUser = currentUser, currentUser.accountType == .driver else { return }
+        
+        Firestore.firestore().collection("rides")
+            .whereField("driverUid", isEqualTo: currentUser.uid)
+            .addSnapshotListener { snapshot, _ in
+                guard
+                    let change = snapshot?.documentChanges.first,
+                    change.type == .added || change.type == .modified
+                else { return }
+                
+                guard let ride = try? change.document.data(as: Ride.self) else { return }
+                
+                self.ride = ride
+                
+                self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.passengerLocation.toCoordinate()) { route in
+                    self.routeToPickupLocation = route
+                    self.ride?.travelTime = Int(route.expectedTravelTime/60)
+                    self.ride?.distanceToPassenger = route.distance
+                }
         }
     }
 }
