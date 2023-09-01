@@ -19,7 +19,7 @@ struct PickupPassengerView: View {
             
             VStack {
                 HStack {
-                    Text("Pick up \(ride.passengerName) at \(ride.dropoffLocationName)")
+                    Text("Pick up \(ride.passengerName) at \(ride.pickupLocationName)")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .lineLimit(2)

@@ -36,6 +36,13 @@ struct UberMapViewRepresentable: UIViewRepresentable {
                 context.coordinator.configurePolyLine(to: coordinate)
             }
             break
+        case .rideAccepted:
+            guard let ride = homeViewModel.ride else { return }
+            guard let driver = homeViewModel.currentUser, driver.accountType == .driver else { return }
+            guard let route = homeViewModel.routeToPickupLocation else { return }
+            
+            context.coordinator.configurePolyLineToPickupLocation(with: route)
+            context.coordinator.addAndSelectAnnotation(withCoordinate: ride.pickupLocation.toCoordinate())
         default:
             break
         }
@@ -82,6 +89,12 @@ extension UberMapViewRepresentable {
             }
             
             return nil
+        }
+        
+        func configurePolyLineToPickupLocation(with route: MKRoute) {
+            self.parent.mapView.addOverlay(route.polyline)
+            let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 80, left: 32, bottom: 400, right: 32))
+            self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
         }
         
         func addAndSelectAnnotation(withCoordinate coordinate: CLLocationCoordinate2D) {

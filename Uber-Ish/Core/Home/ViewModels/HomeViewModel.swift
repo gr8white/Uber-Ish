@@ -16,6 +16,7 @@ class HomeViewModel: NSObject, ObservableObject {
     @Published var drivers: [User] = []
     @Published var currentUser: User?
     @Published var ride: Ride?
+    var routeToPickupLocation: MKRoute?
     
     private let userService = UserService.shared
     private var cancellables = Set<AnyCancellable>()
@@ -104,7 +105,6 @@ extension HomeViewModel {
                     print("ride was uploaded")
                 }
             }
-            
         }
     }
     
@@ -188,6 +188,12 @@ extension HomeViewModel {
                 guard let ride = try? change.document.data(as: Ride.self) else { return }
                 
                 self.ride = ride
+                
+                self.getDestinationRoute(from: ride.driverLocation.toCoordinate(), to: ride.passengerLocation.toCoordinate()) { route in
+                    self.routeToPickupLocation = route
+                    self.ride?.travelTime = Int(route.expectedTravelTime/60)
+                    self.ride?.distanceToPassenger = route.distance
+                }
         }
     }
 }
