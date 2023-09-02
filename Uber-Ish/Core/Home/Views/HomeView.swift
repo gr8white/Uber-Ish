@@ -76,7 +76,10 @@ extension HomeView {
             }
         }
         .onReceive(homeViewModel.$ride) { ride in
-            guard let ride = ride else { return }
+            guard let ride = ride else {
+                self.mapViewState = .noInput
+                return
+            }
             
             withAnimation(.spring()) {
                 switch ride.state {

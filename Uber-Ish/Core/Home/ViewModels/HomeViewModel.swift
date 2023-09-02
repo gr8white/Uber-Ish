@@ -76,6 +76,55 @@ class HomeViewModel: NSObject, ObservableObject {
                 print("Did update trip with \(state)")
             }
     }
+    
+    func deleteRide() {
+        guard
+            let user = currentUser,
+            let ride = ride
+        else { return }
+        
+        if user.accountType == .passenger {
+            if ride.state == .driverCancelled {
+                deleteRideAPI()
+            } else if ride.state == .passengerCancelled {
+                self.ride = nil
+            }
+        } else {
+            if ride.state == .passengerCancelled {
+                deleteRideAPI()
+            } else if ride.state == .driverCancelled {
+                self.ride = nil
+            }
+        }
+    }
+    
+    func deleteRideAPI() {
+        guard let ride = ride else { return }
+        
+        Firestore.firestore().collection("rides").document(ride.id).delete { _ in
+            self.ride = nil
+        }
+    }
+    
+    var rideCancelledMessage: String {
+        guard let user = currentUser, let ride = ride else { return "" }
+        
+        if user.accountType == .passenger {
+            if ride.state == .driverCancelled {
+                return "Your driver cancelled this ride"
+            } else if ride.state == .passengerCancelled {
+                return "Your ride has been cancelled"
+            }
+        } else {
+            if ride.state == .driverCancelled {
+                return "Your ride has been cancelled"
+            } else if ride.state == .passengerCancelled {
+                return "Your ride has been cancelled by the passenger"
+            }
+        }
+        
+        return "Your ride has been cancelled"
+    }
 
     func viewForState(_ state: MapViewState, user: User) -> some View {
         switch state {
@@ -95,10 +144,8 @@ class HomeViewModel: NSObject, ObservableObject {
                     return AnyView(PickupPassengerView(ride: ride))
                 }
             }
-        case .rideCancelledByPassenger:
-            return AnyView(Text("trip cancelled by passenger"))
-        case .rideCancelledByDriver:
-            return AnyView(Text("trip cancelled by driver"))
+        case .rideCancelledByPassenger, .rideCancelledByDriver:
+            return AnyView(RideCancelledView())
         case .polylineAdded, .locationSelected:
             return AnyView(RideRequestView())
         default: break
