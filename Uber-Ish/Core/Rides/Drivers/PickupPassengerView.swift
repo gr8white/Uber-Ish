@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PickupPassengerView: View {
+    @EnvironmentObject var homeViewModel: HomeViewModel
     let ride: Ride
     
     var body: some View {
@@ -82,14 +83,14 @@ struct PickupPassengerView: View {
             }
             
             Button {
-                
+                homeViewModel.cancelRideAsDriver()
             } label: {
                 Text("CANCEL RIDE")
                     .font(.headline)
                     .fontWeight(.bold)
                     .padding()
                     .frame(width: UIScreen.main.bounds.width - 32, height: 50)
-                    .background(Color(.systemRed))
+                    .background(Color(.red))
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }

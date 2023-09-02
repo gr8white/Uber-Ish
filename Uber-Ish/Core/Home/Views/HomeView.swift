@@ -62,30 +62,8 @@ extension HomeView {
                     .padding(.top, 4)
             }
             if let user = authViewModel.currentUser {
-                if user.accountType == .passenger {
-                    if mapViewState == .locationSelected || mapViewState == .polylineAdded {
-                        RideRequestView()
-                            .transition(.move(edge: .bottom))
-                    } else if mapViewState == .rideRequested {
-                        RideLoadingView()
-                            .transition(.move(edge: .bottom))
-                    } else if mapViewState == .rideAccepted {
-                        RideAcceptedView()
-                            .transition(.move(edge: .bottom))
-                    } else if mapViewState == .rideRejected {
-                        
-                    }
-                } else {
-                    if let ride = homeViewModel.ride {
-                        if mapViewState == .rideRequested {
-                            AcceptRideView(ride: ride)
-                                .transition(.move(edge: .bottom))
-                        } else if mapViewState == .rideAccepted {
-                            PickupPassengerView(ride: ride)
-                                .transition(.move(edge: .bottom))
-                        }
-                    }
-                }
+                homeViewModel.viewForState(mapViewState, user: user)
+                    .transition(.move(edge: .bottom))
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -98,13 +76,18 @@ extension HomeView {
             }
         }
         .onReceive(homeViewModel.$ride) { ride in
-            guard let ride = ride else { return }
+            guard let ride = ride else {
+                self.mapViewState = .noInput
+                return
+            }
             
             withAnimation(.spring()) {
                 switch ride.state {
                 case .requested: self.mapViewState = .rideRequested
                 case .rejected: self.mapViewState = .rideRejected
                 case .accepted: self.mapViewState = .rideAccepted
+                case .passengerCancelled: self.mapViewState = .rideCancelledByPassenger
+                case .driverCancelled: self.mapViewState = .rideCancelledByDriver
                 }
             }
         }

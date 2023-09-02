@@ -92,7 +92,7 @@ struct RideAcceptedView: View {
             }
             
             Button {
-                print("cancel ride tapped")
+                homeViewModel.cancelRideAsPassenger()
             } label: {
                 Text("CANCEL RIDE")
                     .fontWeight(.bold)

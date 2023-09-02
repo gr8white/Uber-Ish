@@ -37,7 +37,13 @@ struct MapViewActionButton: View {
             showSideMenu.toggle()
         case .searchingForLocation:
             mapViewState = .noInput
-        case .locationSelected, .polylineAdded, .rideAccepted, .rideRejected, .rideRequested:
+        case .locationSelected, 
+                .polylineAdded,
+                .rideAccepted,
+                .rideRejected,
+                .rideRequested,
+                .rideCancelledByDriver,
+                .rideCancelledByPassenger:
             mapViewState = .noInput
             viewModel.selectedUberLocation = nil
         }

@@ -52,6 +52,7 @@
 		1B97C7502A8A8CC1003BE57E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1B97C74F2A8A8CC1003BE57E /* FirebaseFirestore */; };
 		1B97C7522A8A8CC1003BE57E /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B97C7512A8A8CC1003BE57E /* FirebaseFirestoreSwift */; };
 		1B97C7542A8A8CC1003BE57E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1B97C7532A8A8CC1003BE57E /* FirebaseStorage */; };
+		1BD2913E2AA3EF290062E54A /* RideCancelledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2913D2AA3EF290062E54A /* RideCancelledView.swift */; };
 		1BD345312A83254C0039D47B /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD345302A83254C0039D47B /* MapViewState.swift */; };
 		1BD345362A83FDE60039D47B /* RideRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD345352A83FDE60039D47B /* RideRequestView.swift */; };
 		1BD7CA9D2A86ACBD00E661B1 /* RideType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD7CA9C2A86ACBD00E661B1 /* RideType.swift */; };
@@ -124,6 +125,7 @@
 		1B97C7452A8A72E9003BE57E /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		1B97C7482A8A8163003BE57E /* CustomInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputField.swift; sourceTree = "<group>"; };
 		1B97C74A2A8A8BA7003BE57E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1BD2913D2AA3EF290062E54A /* RideCancelledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideCancelledView.swift; sourceTree = "<group>"; };
 		1BD345302A83254C0039D47B /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
 		1BD345352A83FDE60039D47B /* RideRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRequestView.swift; sourceTree = "<group>"; };
 		1BD7CA9C2A86ACBD00E661B1 /* RideType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideType.swift; sourceTree = "<group>"; };
@@ -451,9 +453,18 @@
 			path = ReusableItems;
 			sourceTree = "<group>";
 		};
+		1BD2913C2AA3EF1E0062E54A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				1BD2913D2AA3EF290062E54A /* RideCancelledView.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		1BD345342A83FDD10039D47B /* Rides */ = {
 			isa = PBXGroup;
 			children = (
+				1BD2913C2AA3EF1E0062E54A /* Shared */,
 				1B4D9F492AA0033E00C400F0 /* Passengers */,
 				1B4D9F482AA0033700C400F0 /* Drivers */,
 			);
@@ -638,6 +649,7 @@
 				1B4D9F432A9D968400C400F0 /* RideAcceptedView.swift in Sources */,
 				1B97C7462A8A72E9003BE57E /* SignUpView.swift in Sources */,
 				1BD7CA9D2A86ACBD00E661B1 /* RideType.swift in Sources */,
+				1BD2913E2AA3EF290062E54A /* RideCancelledView.swift in Sources */,
 				1B7DF02D2A8DBEFB00163019 /* User.swift in Sources */,
 				1B4657C22A9022EF00EB449A /* SettingsRowView.swift in Sources */,
 				1B4D9F412A9D964900C400F0 /* RideLoadingView.swift in Sources */,
