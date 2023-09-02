@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import Combine
 import MapKit
+import SwiftUI
 
 class HomeViewModel: NSObject, ObservableObject {
     // MARK: - Properties
@@ -59,6 +60,51 @@ class HomeViewModel: NSObject, ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    private func updateRideState(state: RideState) {
+        guard let ride = ride else { return }
+        
+        var data = ["state": state.rawValue]
+        
+        if state == .accepted {
+            data["travelTime"] = ride.travelTime
+        }
+        
+        Firestore.firestore().collection("rides").document(ride.id)
+            .updateData(data) { _ in
+                print("Did update trip with \(state)")
+            }
+    }
+
+    func viewForState(_ state: MapViewState, user: User) -> some View {
+        switch state {
+        case .rideRequested:
+            if user.accountType == .passenger {
+                return AnyView(RideLoadingView())
+            } else {
+                if let ride = self.ride {
+                    return AnyView(AcceptRideView(ride: ride))
+                }
+            }
+        case .rideAccepted:
+            if user.accountType == .passenger {
+                return AnyView(RideAcceptedView())
+            } else {
+                if let ride = self.ride {
+                    return AnyView(PickupPassengerView(ride: ride))
+                }
+            }
+        case .rideCancelledByPassenger:
+            return AnyView(Text("trip cancelled by passenger"))
+        case .rideCancelledByDriver:
+            return AnyView(Text("trip cancelled by driver"))
+        case .polylineAdded, .locationSelected:
+            return AnyView(RideRequestView())
+        default: break
+        }
+        
+        return AnyView(EmptyView())
     }
 }
 
@@ -136,6 +182,10 @@ extension HomeViewModel {
                 self.ride = ride
         }
     }
+    
+    func cancelRideAsPassenger() {
+        updateRideState(state: .passengerCancelled)
+    }
 }
 
 // MARK: - Driver API
@@ -152,26 +202,11 @@ extension HomeViewModel {
     }
     
     func rejectTrip() {
-        updateRideState(ride, state: .rejected)
+        updateRideState(state: .rejected)
     }
     
     func acceptRide() {
-        updateRideState(ride, state: .accepted)
-    }
-    
-    private func updateRideState(_ ride: Ride?, state: RideState) {
-        guard let ride = ride else { return }
-        
-        var data = ["state": state.rawValue]
-        
-        if state == .accepted {
-            data["travelTime"] = ride.travelTime
-        }
-        
-        Firestore.firestore().collection("rides").document(ride.id)
-            .updateData(data) { _ in
-                print("Did update trip with \(state)")
-            }
+        updateRideState(state: .accepted)
     }
     
     func addTripObserverForDriver() {
@@ -195,6 +230,10 @@ extension HomeViewModel {
                     self.ride?.distanceToPassenger = route.distance
                 }
         }
+    }
+    
+    func cancelRideAsDriver() {
+        updateRideState(state: .driverCancelled)
     }
 }
 
